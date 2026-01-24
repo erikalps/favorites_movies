@@ -24,8 +24,20 @@ export async function fechMovies(title: string): Promise<SearchResponse> {
   
 }
 
-export async function fechMoviesDetails(id:string) {
-    const res = await fetch (`${URL_BASE}? S=${encodeURIComponent(id)}&apikey=${API_KEY}`);
-    const data: MovieDetails = await res.json();
-    return data;
+export async function fechMoviesDetails(
+  id: string
+): Promise<MovieDetails> {
+
+  const res = await fetch(
+    `${URL_BASE}?i=${encodeURIComponent(id)}&apikey=${API_KEY}`
+  );
+
+  if (!res.ok) {
+    throw new Error(`Erro ${res.status}`);
+  }
+
+  const data: MovieDetails = await res.json();
+
+  return data;
 }
+

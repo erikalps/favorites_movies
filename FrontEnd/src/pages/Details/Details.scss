@@ -1,0 +1,125 @@
+.details {
+  /* ===== BACKGROUND CINEMA ===== */
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #1a1a1a, #2c0b4a);
+  color: #fff;
+  font-family: 'Arial', sans-serif;
+
+  /* ===== BACK BUTTON ===== */
+  .back-button {
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: 2px solid #8a2be2;
+    background: transparent;
+    color: #8a2be2;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 30px;
+    display: inline-block;
+
+    &:hover {
+      background: #8a2be2;
+      color: #fff;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(138, 43, 226, 0.5);
+    }
+  }
+
+  /* ===== CONTENT ===== */
+  .details-content {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+
+    /* ===== POSTER ===== */
+    .details-poster {
+      width: 320px;
+      border-radius: 15px;
+      object-fit: cover;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+
+    /* ===== INFO ===== */
+    .details-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      .details-title {
+        font-size: 36px;
+        font-weight: 700;
+        color: #8a2be2;
+        margin-bottom: 10px;
+      }
+
+      p {
+        line-height: 1.6;
+        font-size: 16px;
+
+        strong {
+          color: #8a2be2;
+        }
+      }
+    }
+  }
+
+  /* ===== LOADING / ERROR ===== */
+  &-loading,
+  &-error {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 80px;
+    color: #d4ceda;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1000px) {
+    .details-content {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+
+      .details-poster {
+        width: 280px;
+      }
+
+      .details-info {
+        align-items: center;
+      }
+    }
+  }
+
+  @media (max-width: 600px) {
+    padding: 20px 15px;
+
+    .back-button {
+      width: 100%;
+      text-align: center;
+    }
+
+    .details-content {
+      gap: 25px;
+
+      .details-poster {
+        width: 220px;
+      }
+
+      .details-info {
+        font-size: 14px;
+
+        .details-title {
+          font-size: 28px;
+        }
+      }
+    }
+  }
+}
