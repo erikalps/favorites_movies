@@ -9,10 +9,19 @@ export async function fechMovies(title: string): Promise<SearchResponse> {
     console.log("title is" + title);
     const url_request: string = `${URL_BASE}?s=${encodeURIComponent(title)}&apikey=${API_KEY}`;
     console.log("url da request" + url_request);
-    const res = await fetch (url_request);
-    const data: SearchResponse = await res.json(); //dados da api preenchem a interface
-    console.log(data);
-    return data;
+    try {
+        const res = await fetch (url_request);
+
+        if(!res.ok) throw Error(`Erro ${res.status}`);       
+        
+        const data: SearchResponse = await res.json(); //dados da api preenchem a interface
+        
+        return data;
+    } catch (error) {
+        console.log('Erro ao buscar filmes:', error);
+        throw error; 
+    }
+  
 }
 
 export async function fechMoviesDetails(id:string) {

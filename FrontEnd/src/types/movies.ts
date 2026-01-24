@@ -10,8 +10,6 @@ export interface MovieSearchItem {
 }
 
 
-
-
 export interface MovieDetails {
     Title: string;
     Year: string;

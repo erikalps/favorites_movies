@@ -8,7 +8,7 @@ function Home(){
     const[search, setSearch] = useState('');
     const[movies, setMovies] = useState<MovieSearchItem[]>([]);
     const[loading, setLoading] = useState(false);
-
+    const [movieNotFound, setMovieNotFound] = useState(false);
     //função chamada ao clicar o botão de busca
     async function handleSearch() {
         if(!search) return; // não busca se o campo estiver vazio
@@ -19,19 +19,22 @@ function Home(){
 
         if(response.Response === 'True' && response.Search){ // retornou com sucesso?!
             setMovies(response.Search); //salva os filmes
+            setMovieNotFound(false)
         } else {
             setMovies([]); // limpa 
+            setMovieNotFound(true)
         }
 
 
         setLoading(false); //desativa loading 
+    
     }
 
     
     return(
         <div>
             <h1>Search Movies</h1>
-
+            
             <input 
                 type="text" placeholder="Pesquisar filme" 
                 value={search}
@@ -44,6 +47,8 @@ function Home(){
                 Pesquisar
             </button>
             
+            {movieNotFound && <p>Filme não encontrado</p>}
+
             <ul>
                 {movies.map(movie=>(
                     <li key={movie.imdbID}>
