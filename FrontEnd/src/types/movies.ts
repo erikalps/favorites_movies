@@ -43,5 +43,5 @@ export interface MovieDetails {
 export interface SearchResponse {
     Search?: MovieSearchItem[]; //deixando search opcional para caso a api não retorne resultados
     totalResults: string;       
-    Response: string;           
+    Response: string;          
 }
