@@ -43,3 +43,16 @@ export interface SearchResponse {
     totalResults: string;       
     Response: string;          
 }
+
+
+export interface FavoriteMovie {
+  imdbID: string;
+  Title: string;
+  Year: string;
+  Poster: string;
+
+  // opcionais (podem vir depois)
+  Plot?: string;
+  Runtime?: string;
+  Genre?: string;
+}

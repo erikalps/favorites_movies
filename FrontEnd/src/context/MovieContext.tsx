@@ -1,9 +1,9 @@
 import React, { createContext, useState, type ReactNode} from "react";
-import type { MovieDetails } from "../types/movies";
+import type { FavoriteMovie } from "../types/movies";
 
 interface MovieContextType {
-    favorites: MovieDetails[]; // lista de filmes favoritos
-    addFavorites: (movie: MovieDetails) => void; //adiciona aos favoritos
+    favorites: FavoriteMovie[]; // lista de filmes favoritos estado global 
+    addFavorites: (movie: FavoriteMovie) => void; //adiciona aos favoritos
     removeFavorites: (imdbID: string) => void;
 }
 
@@ -19,11 +19,11 @@ interface MovieProviderProps {
 
 //exportando provider
 export const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
-    const [favorites, setFavorites] = useState<MovieDetails[]>([]);
+    const [favorites, setFavorites] = useState<FavoriteMovie[]>([]);
 
     //adicionar filme aos favoritos sem duplicar
 
-    const addFavorites = (movie: MovieDetails) => {
+    const addFavorites = (movie: FavoriteMovie) => {
         setFavorites(prev => {
             if (!prev.find(fav => fav.imdbID === movie.imdbID)) {
                 return [...prev, movie];
