@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { MovieContext } from "../../context/MovieContext";
 import { Link } from "react-router-dom";
-import { type MovieDetails, type MovieSearchItem } from "../../types/movies";
+import {type MovieSearchItem } from "../../types/movies";
 import './MovieCard.scss'
 
 

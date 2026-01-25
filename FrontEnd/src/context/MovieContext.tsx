@@ -1,10 +1,12 @@
-import React, { createContext, useState, type ReactNode} from "react";
+import React, { createContext, useState, type ReactNode } from "react";
 import type { FavoriteMovie } from "../types/movies";
+import type { MovieReview } from "../types/movies";
 
 interface MovieContextType {
     favorites: FavoriteMovie[]; // lista de filmes favoritos estado global 
     addFavorites: (movie: FavoriteMovie) => void; //adiciona aos favoritos
     removeFavorites: (imdbID: string) => void;
+    updateReview: (imdbID: string,review: MovieReview) => void;
 }
 
 //criar contexto
@@ -37,8 +39,23 @@ export const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
         setFavorites(prev => prev.filter(fav => fav.imdbID != imdbID))
     };
 
+    //fazer review
+
+    const updateReview = (imdbID: string, review: MovieReview) => {
+        //validação
+        if (review.rating < 0 || review.rating > 5) return;
+
+        setFavorites(prev =>
+            prev.map(movie =>
+                movie.imdbID === imdbID ? { ...movie, review }
+                    : movie
+            )
+        )
+
+    };
+
     return (
-        <MovieContext.Provider value={{ favorites, addFavorites, removeFavorites }}>
+        <MovieContext.Provider value={{ favorites, addFavorites, removeFavorites, updateReview }}>
             {children}
         </MovieContext.Provider>
     );

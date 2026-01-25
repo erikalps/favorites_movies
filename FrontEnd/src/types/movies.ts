@@ -55,4 +55,10 @@ export interface FavoriteMovie {
   Plot?: string;
   Runtime?: string;
   Genre?: string;
+  review?: MovieReview;
+}
+
+export interface MovieReview {
+  rating: number;   // 0 a 5
+  comment: string;
 }
