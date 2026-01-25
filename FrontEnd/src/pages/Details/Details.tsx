@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import type { MovieDetails } from "../../types/movies";
 import { fechMoviesDetails } from "../../services/api";
+
 import './Details.scss'
+import FavoriteButton from "../../components/favotiteButton/FavoriteButton";
 
 function Details() {
     const { id } = useParams<{ id: string }>();
@@ -27,11 +29,14 @@ function Details() {
         }
 
         loadMovie(); //chama a função async 
+
     });
 
     if (loading) return <p className="details-loading">Loading...</p>;
     if (error) return <p className="details-error">{error}</p>;
     if (!movie) return null;
+
+ 
 
     return (
         <div className="details">
@@ -65,6 +70,8 @@ function Details() {
                     <p><strong>Runtime:</strong> {movie.Runtime}</p>
                 </div>
             </div>
+            <FavoriteButton movie={movie} />
+
         </div>
     );
 }

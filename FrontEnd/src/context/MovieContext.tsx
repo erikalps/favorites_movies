@@ -1,4 +1,4 @@
-import React, { createContext, useState, type ReactNode } from "react";
+import React, { createContext, useEffect, useState, type ReactNode } from "react";
 import type { FavoriteMovie } from "../types/movies";
 import type { MovieReview } from "../types/movies";
 
@@ -6,12 +6,13 @@ interface MovieContextType {
     favorites: FavoriteMovie[]; // lista de filmes favoritos estado global 
     addFavorites: (movie: FavoriteMovie) => void; //adiciona aos favoritos
     removeFavorites: (imdbID: string) => void;
-    updateReview: (imdbID: string,review: MovieReview) => void;
+    updateReview: (imdbID: string, review: MovieReview) => void;
 }
 
 //criar contexto
 
 export const MovieContext = createContext<MovieContextType | undefined>(undefined);
+const STORAGE_KEY = "favorites";
 
 //provider
 
@@ -21,7 +22,25 @@ interface MovieProviderProps {
 
 //exportando provider
 export const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
-    const [favorites, setFavorites] = useState<FavoriteMovie[]>([]);
+    const [favorites, setFavorites] = useState<FavoriteMovie[]>(() => {
+        const stored = localStorage.getItem(STORAGE_KEY);
+
+        try {
+            return stored ? JSON.parse(stored) : [];
+        } catch {
+            return []
+        }
+    });
+
+
+    //monitora mudanças no estado de favoritos e atualiza 
+    useEffect(() => {
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(favorites)
+        );
+    }, [favorites]);
+
 
     //adicionar filme aos favoritos sem duplicar
 

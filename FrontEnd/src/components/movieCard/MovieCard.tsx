@@ -1,42 +1,15 @@
-import { useContext } from "react";
-import { MovieContext } from "../../context/MovieContext";
 import { Link } from "react-router-dom";
-import {type MovieSearchItem } from "../../types/movies";
+import { type MovieDetails, type MovieSearchItem } from "../../types/movies";
 import './MovieCard.scss'
+import FavoriteButton from "../favotiteButton/FavoriteButton";
 
 
 interface MovieCardProps {
     movie: MovieSearchItem;
-
+    movia: MovieDetails
 }
 
 function MovieCard({ movie }: MovieCardProps) {
-
-    const movieContext = useContext(MovieContext);
-
-    if (!movieContext) return null;
-
-    const { favorites, addFavorites, removeFavorites } = movieContext;
-
-    const isFavorite = favorites.some(
-        fav => fav.imdbID === movie.imdbID
-    );
-
-    const handleFavoriteClick = (
-        e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        if (isFavorite) {
-            removeFavorites(movie.imdbID);
-        } else {
-            addFavorites(movie);
-        }
-    };
-
-
-
-
 
     return (
         <Link
@@ -60,12 +33,7 @@ function MovieCard({ movie }: MovieCardProps) {
                     {movie.Title} ({movie.Year})
                 </h3>
 
-                <button
-                    className="favorite-button"
-                    onClick={handleFavoriteClick}
-                >
-                    {isFavorite ? "❤️" : "🤍"}
-                </button>
+                <FavoriteButton movie ={movie}></FavoriteButton>
             </li>
         </Link>
     );
