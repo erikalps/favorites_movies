@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { fechMovies } from "../../services/api";
+import { fetchMovies } from "../../services/api";
 import { type MovieSearchItem } from "../../types/movies";
 import MovieCard from "../../components/movieCard/MovieCard";
 import './Home.scss'
@@ -14,7 +14,7 @@ function Home() {
         if (!search) return;  // não busca se o campo estiver vazio
 
         setLoading(true);  // ativa loading 
-        const response = await fechMovies(search); //chama funçao do serviço api aqui
+        const response = await fetchMovies(search); //chama funçao do serviço api aqui
         setLoading(false); //desativa loading 
 
         if (response.Response === 'True' && response.Search) { //retornou com sucess?

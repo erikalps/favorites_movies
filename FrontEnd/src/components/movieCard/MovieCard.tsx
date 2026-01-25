@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
-import { type MovieDetails, type MovieSearchItem } from "../../types/movies";
+import { type MovieSearchItem } from "../../types/movies";
 import './MovieCard.scss'
 import FavoriteButton from "../favotiteButton/FavoriteButton";
 
 
 interface MovieCardProps {
     movie: MovieSearchItem;
-    movia: MovieDetails
 }
 
 function MovieCard({ movie }: MovieCardProps) {
