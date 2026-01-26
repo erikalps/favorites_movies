@@ -1,73 +1,56 @@
-*{
-    padding:  0;
-    margin: 0;
+$bg-deep: #0a0a0c;
+$bg-card: #16161c;
+$bg-input: #1f1f27;
+
+$purple-main: #8a4fff;
+$purple-glow: #bc9aff;
+$purple-dark: #5a2bb1;
+
+$text-high: #ffffff;
+$text-med: #b4b4c0;
+$text-low: #6b6b7a;
+
+$transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+$shadow-glow: 0 0 15px rgba(138, 79, 255, 0.3);
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+body {
+  background-color: $bg-deep;
+  color: $text-high;
+  font-family: 'Inter', sans-serif;
 }
 
 nav {
+  @include flex-center;
+  gap: 2rem;
+  padding: 1.5rem;
+  background: rgba($bg-deep, 0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba($purple-main, 0.2);
   position: sticky;
   top: 0;
-  width: 100%;
-  background: linear-gradient(90deg, #000000 0%, #1A1A1A 100%);
-  display: flex;
-  justify-content: flex-end;
-  padding: 1rem 0rem; /* espaçamento interno suficiente para afastar os links das bordas */
   z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-  transition: background 0.3s ease, padding 0.3s ease;
 
   a {
-    color: #FF7F00;
+    color: $text-med;
     text-decoration: none;
-    font-weight: 700;
-    margin-left: 2rem; /* espaço entre os links */
-    font-size: 1.3rem;
-    position: relative;
-    transition: all 0.3s ease;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: $transition;
 
-    &:hover {
-      color: #FF4F00;
+    &:hover { color: $purple-glow; }
+    
+    &.active {
+      color: $purple-main;
+      text-shadow: $shadow-glow;
     }
-
-    &:after {
-      content: '';
-      display: block;
-      width: 0;
-      height: 2px;
-      background: #FF7F00;
-      transition: width 0.3s;
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-    }
-
-    &:hover:after {
-      width: 100%;
-    }
-  }
-}
-
-/* ===== Responsividade ===== */
-
-/* Tablets e celulares */
-@media (max-width: 768px) {
-  nav {
-    padding: 1rem 2rem; /* reduz o padding em telas menores */
-  }
-
-  a {
-    font-size: 1.2rem;
-    margin-left: 1.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  nav {
-    flex-direction: column; /* centraliza links em coluna */
-    padding: 1rem;
-  }
-
-  a {
-    margin: 0.5rem 0;
-    font-size: 1.1rem;
   }
 }
