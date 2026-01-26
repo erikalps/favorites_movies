@@ -1,9 +1,3 @@
-/* Remove barra de scroll */
-html, body {
-  overflow: hidden; /* desativa scroll da página inteira */
-}
-
-/* Home.scss */
 
 .home {
   min-height: 100vh;
@@ -15,6 +9,7 @@ html, body {
   color: #FFFFFF;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   transition: background 0.5s ease;
+
 }
 
 .home-title {
@@ -80,7 +75,7 @@ html, body {
   font-size: 1.2rem;
   margin-top: 1rem;
   color: #FF7F00;
-  text-shadow: 1px 1px 5px rgba(255,127,0,0.5);
+  text-shadow: 1px 1px 5px rgba(255, 127, 0, 0.5);
 }
 
 .movie-list {
@@ -105,15 +100,16 @@ html, body {
   }
 }
 
-/* Scroll suave */
-html {
-  scroll-behavior: smooth;
-}
 
-/* ===== RESPONSIVE ===== */
+/* ===== RESPONSIDADE ===== */
 
 /* Telas pequenas (celulares) */
 @media (max-width: 480px) {
+  .home {
+    overflow-y: auto;
+    /* ativa scroll */
+  }
+
   .home-title {
     font-size: 2rem;
   }
@@ -141,6 +137,11 @@ html {
 
 /* Laptops e telas médias */
 @media (max-width: 1024px) {
+  .home {
+    overflow-y: auto;
+    /* ativa scroll */
+  }
+
   .home-title {
     font-size: 2.8rem;
   }

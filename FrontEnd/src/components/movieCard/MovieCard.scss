@@ -1,53 +1,82 @@
+
 .movie-card-link {
   text-decoration: none;
-  color: inherit;
+  color: inherit; /* herda cor do card */
 }
 
 .movie-card {
+  background: linear-gradient(145deg, #1A1A1A, #2C2C2C); /* fundo escuro com gradiente sutil */
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  padding: 1rem;
   cursor: pointer;
 
-  background-color: #1c1c1c;
-  border-radius: 10px;
-  padding: 12px;
-
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-
   &:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(185, 94, 9, 0.795); /* sombra laranja ao hover */
   }
+}
 
-  /* ===== POSTER ===== */
+.movie-poster {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 1rem;
 
-  .movie-poster {
+  .movie-image {
     width: 100%;
-    aspect-ratio: 2 / 3;
-    overflow: hidden;
+    height: auto;
+    display: block;
     border-radius: 8px;
-    background-color: #111;
+    transition: transform 0.3s ease;
 
-    .movie-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
+    &:hover {
+      transform: scale(1.05);
     }
   }
+}
 
-  /* ===== TITLE ===== */
+.movie-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-align: center;
+  color: #FF7F00;
+  margin-bottom: 0.5rem;
+  text-shadow: 1px 1px 5px rgba(255,127,0,0.5);
+}
+
+/* Ajuste do FavoriteButton dentro do card */
+.movie-card .favorite-button {
+  margin-top: auto;
+  align-self: center;
+}
+
+/* ===== Responsividade ===== */
+
+/* Telas pequenas (celulares) */
+@media (max-width: 480px) {
+  .movie-card {
+    padding: 0.8rem;
+  }
 
   .movie-title {
-    font-size: 15px;
-    font-weight: 500;
-    text-align: center;
-    line-height: 1.3;
+    font-size: 1rem;
+  }
+}
 
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+/* Tablets */
+@media (max-width: 768px) {
+  .movie-card {
+    padding: 0.9rem;
+  }
+
+  .movie-title {
+    font-size: 1.1rem;
   }
 }

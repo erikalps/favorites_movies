@@ -1,0 +1,71 @@
+.favorite-button {
+  margin-top: 0.5rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+
+  border: 2px solid #ff7f00;
+  background: transparent;
+  color: #ff7f00;
+
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+
+  transition: all 0.25s ease;
+
+  /* estrela */
+  span,
+  & {
+    letter-spacing: 0.02em;
+  }
+
+  &:hover {
+    background: rgba(255, 127, 0, 0.15);
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255, 127, 0, 0.4);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+/* === FAVORITADO====== */
+
+.favorite-button.active {
+  background: #1f7a3a;
+  border-color: #2ecc71;
+  color: #2ecc71;
+
+  box-shadow: 0 0 14px rgba(46, 204, 113, 0.6);
+
+  animation: favoritePop 0.35s ease;
+}
+
+/*  animação */
+@keyframes favoritePop {
+  0% {
+    transform: scale(0.7);
+  }
+  70% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/*  Mobile */
+@media (max-width: 480px) {
+  .favorite-button {
+    font-size: 0.85rem;
+    padding: 0.45rem 0.9rem;
+  }
+}

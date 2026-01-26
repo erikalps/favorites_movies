@@ -6,6 +6,7 @@ import type {
 } from "../../types/movies";
 
 import { MovieContext } from "../../context/MovieContext";
+import './FavoriteButton.scss'
 
 
 /*
