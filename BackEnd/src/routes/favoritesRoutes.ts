@@ -72,7 +72,6 @@ router.delete('/:id', async (req, res) => {
 })
 
 //  Atualiza rating e comment de um filme já favoritado
-
 router.patch('/:id', async (req, res) => {
     try {
         const id = req.params.id;

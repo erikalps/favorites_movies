@@ -4,10 +4,16 @@
       "imdbID": "tt0133093",
       "Title": "The Matrix",
       "Year": "1999",
-      "Poster": "https://m.media-amazon.com/images/M/MV5BN2NmN2VhMTQtMDNiOS00NDlhLTliMjgtODE2ZTY0ODQyNDRhXkEyXkFqcGc@._V1_SX300.jpg",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BN2NmN2VhMTQtMDNiOS00NDlhLTliMjgtODE2ZTY0ODQyNDRhXkEyXkFqcGc@._V1_SX300.jpg"
+    },
+    {
+      "imdbID": "tt0295432",
+      "Title": "The Matrix Revisited",
+      "Year": "2001",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BMTkzNjg3NjE4N15BMl5BanBnXkFtZTgwNTc3NTAwNzE@._V1_SX300.jpg",
       "review": {
-        "rating": 4,
-        "comment": "Filme top!"
+        "rating": 5,
+        "comment": "Recomendo demais!"
       }
     }
   ]
