@@ -19,7 +19,7 @@
       width: 100%;
       max-width: 280px;
       border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 
       @media (min-width: 800px) {
         max-width: 350px;
@@ -49,7 +49,10 @@
         margin-bottom: 0.8rem;
         color: #b4b4c0;
 
-        strong { color: #fff; margin-right: 5px; }
+        strong {
+          color: #fff;
+          margin-right: 5px;
+        }
       }
     }
   }
@@ -64,27 +67,163 @@
       padding: 2rem;
     }
 
-    input, textarea {
-      width: 100%;
+    input,
+    textarea {
+      width: 80%;
       background: #0a0a0c;
       border: 1px solid #333;
       color: white;
       padding: 0.8rem;
       border-radius: 8px;
       margin: 0.5rem 0 1rem;
-      
+
     }
 
     button {
       width: 100%;
       background: #8a4fff;
       padding: 1rem;
+      margin-bottom: 10px;
       border-radius: 8px;
       border: none;
       color: white;
       font-weight: bold;
 
-      @media (min-width: 600px) { width: auto; padding: 1rem 3rem; } // Respponsividade 
+      @media (min-width: 600px) {
+        width: auto;
+        padding: 1rem 3rem;
+      }
+
+      // Respponsividade 
     }
+  }
+}
+
+.review-section {
+  margin-top: 3rem;
+
+  .saved-review {
+    background: #16161c;
+    padding: 2rem;
+    border-radius: 12px;
+    border-left: 4px solid #8a4fff; // Destaque lateral roxo
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.4s ease-out;
+
+    .rating-badge {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #8a4fff;
+      margin-bottom: 0.8rem;
+    }
+
+    .comment-text {
+      color: #b4b4c0;
+      line-height: 1.6;
+      font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+
+    .edit-button {
+      background: rgba(138, 79, 255, 0.1);
+      border: 1px solid #8a4fff;
+      color: #8a4fff;
+      padding: 0.5rem 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: 0.3s;
+
+      &:hover {
+        background: #8a4fff;
+        color: white;
+      }
+    }
+  }
+
+  .review-form {
+    background: #16161c;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #333;
+
+    label {
+      display: block;
+      margin-bottom: 1rem;
+      color: #6b6b7a;
+
+      input,
+      textarea {
+        width: 100%;
+        background: #0a0a0c;
+        border: 1px solid #444;
+        color: white;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 0.5rem;
+        font-size: 1rem;
+
+        &:focus {
+          border-color: #8a4fff;
+          outline: none;
+        }
+      }
+
+      textarea {
+        min-height: 120px;
+        resize: none;
+      }
+    }
+
+    .form-actions {
+      display: flex;
+      flex-direction: column; // Coluna no mobile
+      gap: 1rem;
+
+      @media (min-width: 600px) {
+        flex-direction: row; // Lado a lado no desktop
+      }
+
+      .save-btn {
+        background: #8a4fff;
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        flex: 1;
+
+        &:hover {
+          background: #7239e5;
+        }
+      }
+
+      .cancel-btn {
+        background: transparent;
+        color: #6b6b7a;
+        border: 1px solid #444;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        cursor: pointer;
+
+        &:hover {
+          border-color: #ff4d4d;
+          color: #ff4d4d;
+        }
+      }
+    }
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
