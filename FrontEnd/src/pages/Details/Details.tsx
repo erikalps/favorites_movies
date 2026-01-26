@@ -5,26 +5,46 @@ import { fetchMoviesDetails } from "../../services/api";
 import './Details.scss'
 import FavoriteButton from "../../components/favotiteButton/FavoriteButton";
 import { MovieContext } from "../../context/MovieContext";
-
+/**
+ * Details Page
+ *
+ * Página responsável por exibir as informações completas de um filme,
+ * permitindo ao usuário:
+ *  - visualizar detalhes vindos da API
+ *  - favoritar ou remover dos favoritos
+ *  - criar, editar e visualizar avaliações pessoais
+ */
 function Details() {
-    const { id } = useParams<{ id: string }>();
-    const navigate = useNavigate();
-    const movieContext = useContext(MovieContext);
+    const { id } = useParams<{ id: string }>(); // Recupera o imdbID a partir dos parâmetros da rota.
+    const navigate = useNavigate(); //  Hook de navegação para retorno à página anterior.
+    const movieContext = useContext(MovieContext); // Contexto global responsável pelo gerenciamento dos filmes favoritados e suas avaliações.
 
-    const [movie, setMovie] = useState<MovieDetails | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
+    const [movie, setMovie] = useState<MovieDetails | null>(null);// Dados completos do filme retornados pela API.
+    const [loading, setLoading] = useState(true); // Controla o estado de carregamento da requisição
+    const [error, setError] = useState(""); // Armazena mensagens de erro da requisição
 
-    // Estados do formulário
-    const [rating, setRating] = useState(0);
-    const [comment, setComment] = useState("");
-    const [isEditing, setIsediting] = useState(false);
+    // ESTADOS DO FORMULÁRIO //
+    const [rating, setRating] = useState(0); // Nota atribuída ao filme (0 a 5).
+    const [comment, setComment] = useState(""); //  Comentário pessoal do usuário sobre o filme.
+    const [isEditing, setIsediting] = useState(false); // Controla se o usuário está no modo de edição da avaliação.
 
-    // CENTRALIZADO: Busca o favorito uma única vez por renderização
+
+    /** Localiza o filme nos favoritos utilizando o imdbID.
+    * Centralizado para evitar múltiplos `.find()` no JSX.
+    */
     const favoriteMovie = movieContext?.favorites.find(fav => fav.imdbID === id);
+
+    /** Indica se existe alguma avaliação salva
+    * (nota ou comentário).
+    */
     const hasReview = !!(favoriteMovie?.review?.rating || favoriteMovie?.review?.comment);
 
     // Carrega dados da API
+
+    /**
+  * Busca os detalhes do filme na API externa
+  * sempre que o parâmetro da rota mudar.
+  */
     useEffect(() => {
         async function loadMovie() {
             try {
@@ -40,7 +60,11 @@ function Details() {
         loadMovie();
     }, [id]);
 
-    // SINCRONIZAÇÃO: Atualiza os inputs apenas quando o favorito mudar (ex: salvou ou deletou)
+    /**
+       * Sincroniza os campos do formulário com o estado global.
+       * Esse efeito roda somente quando o favorito muda no contexto,
+       * garantindo consistência após salvar ou atualizar avaliações.
+       */
     useEffect(() => {
         if (favoriteMovie?.review) {
             setRating(favoriteMovie.review.rating);
@@ -64,11 +88,12 @@ function Details() {
 
     return (
         <div className="details">
+            {/* Botão de navegação para a página anterior */}
             <button className="back-button" onClick={() => navigate(-1)}>← Voltar</button>
 
             <div className="details-content">
                 <img className="details-poster" src={movie.Poster} alt={movie.Title} />
-
+                {/* Informações principais do filme */}
                 <div className="details-info">
                     <h1 className="details-title">{movie.Title} ({movie.Year})</h1>
                     <p className="details-plot"><strong>Plot:</strong> {movie.Plot}</p>
@@ -78,11 +103,10 @@ function Details() {
                     <p><strong>IMDb Rating:</strong> {movie.imdbRating}</p>
                     <p><strong>Runtime:</strong> {movie.Runtime}</p>
                 </div>
-
+                {/* Área de avaliação do usuário */}
                 <div className="review-box">
                     <h3>sua avaliação</h3>
-
-                    {/* TERNÁRIO: Ou mostra um, ou mostra outro */}
+                    {/* Exibe a avaliação salva ou o formulário */}
                     {hasReview && !isEditing ? (
                         <div className="saved-review-box">
                             <div className="saved-rating">⭐ {favoriteMovie?.review?.rating}/5</div>

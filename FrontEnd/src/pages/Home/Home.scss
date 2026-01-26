@@ -41,6 +41,7 @@
       &:focus {
         border-color: #8a4fff;
       }
+
     }
 
     .search-button {
@@ -51,9 +52,15 @@
       border-radius: 8px;
       font-weight: bold;
       cursor: pointer;
+      transition: all 0.3s ease;
 
       &:active {
         transform: scale(0.95);
+      }
+
+      &:hover {
+        transform: scale(1.06);
+        border-color: #8a4fff;
       }
     }
   }

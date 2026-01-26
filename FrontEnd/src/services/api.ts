@@ -4,25 +4,27 @@ const URL_BASE = 'http://www.omdbapi.com/';
 const API_URL = 'http://localhost:3000'; // Backend local
 
 
-// Busca de filmes na api omdbapi
+// OMDb API — Integração externa // 
 
+// Realiza a busca de filmes por título utilizando a OMDb API.
 export async function fetchMovies(title: string): Promise<SearchResponse> {
   const url_request: string = `${URL_BASE}?s=${encodeURIComponent(title)}&apikey=${API_KEY}`;
+
   try {
     const res = await fetch(url_request);
 
     if (!res.ok) throw Error(`Erro ${res.status}`);
-
-    const data: SearchResponse = await res.json(); //dados da api preenchem a interface
-
+    // Resposta da OMDb segue o padrão SearchResponse
+    const data: SearchResponse = await res.json();
     return data;
+
   } catch (error) {
     console.log('Erro ao buscar filmes:', error);
     throw error;
   }
-
 }
 
+// Busca os detalhes completos de um filme específico.
 export async function fetchMoviesDetails(
   id: string
 ): Promise<MovieDetails> {
@@ -51,13 +53,13 @@ export async function getFavoritesBackend() {
         // 'Authorization': 'Bearer <token>', se necessário
       }
     });
+
     if (!res.ok) {
       if (res.status === 404) throw new Error('Nenhum favorito encontrado');
       throw new Error(`Erro ${res.status}`);
     }
+
     return res.json();
-
-
   } catch (error) {
     console.error('Erro ao buscar favoritos:', error);
     throw error;
