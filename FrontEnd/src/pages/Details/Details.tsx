@@ -37,7 +37,7 @@ function Details() {
 
         loadMovie(); // Chama a função async 
 
-    });
+    }, []);
 
     useEffect(() => {
         if (!movieContext || !movie) return;

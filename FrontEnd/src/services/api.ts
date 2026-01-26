@@ -1,14 +1,13 @@
 import type { MovieDetails, SearchResponse } from '../types/movies';
 const API_KEY = import.meta.env.VITE_OMDB_API_KEY;
 const URL_BASE = 'http://www.omdbapi.com/';
+const API_URL = 'http://localhost:3000'; // Backend local
 
 
-//busca de filmes 
+//busca de filmes na api omdbapi
 
 export async function fetchMovies(title: string): Promise<SearchResponse> {
-  console.log("title is" + title);
   const url_request: string = `${URL_BASE}?s=${encodeURIComponent(title)}&apikey=${API_KEY}`;
-  console.log("url da request" + url_request);
   try {
     const res = await fetch(url_request);
 
@@ -41,3 +40,82 @@ export async function fetchMoviesDetails(
   return data;
 }
 
+// Backend API - Favoritos
+// GET /favorites → retorna todos os filmes favoritados
+export async function getFavoritesBackend() {
+  try {
+    const res = await fetch(`${API_URL}/favorites`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Authorization': 'Bearer <token>', se necessário
+      }
+    });
+    if (!res.ok) {
+      if (res.status === 404) throw new Error('Nenhum favorito encontrado');
+      throw new Error(`Erro ${res.status}`);
+    }
+    return res.json();
+
+
+  } catch (error) {
+    console.error('Erro ao buscar favoritos:', error);
+    throw error;
+  }
+}
+// POST /favorites → adiciona um filme aos favoritos
+export async function addFavoriteBackend(movie: any) {
+  try {
+    const res = await fetch(`${API_URL}/favorites`, {
+      method: 'POST', // Método HTTP POST
+      headers: { 'Content-Type': 'application/json' }, // Indica que o corpo é JSON
+      body: JSON.stringify(movie), // Converte objeto JS em JSON
+    });
+
+    if (!res.ok) throw new Error(`Erro ${res.status}`); // Valida o http
+    return res.json();
+
+  } catch (error) {
+    console.error('Erro ao adicionar favorito:', error);
+    throw error;
+  }
+}
+
+// DELETE /favorites/:id → remove um filme pelo ID
+
+export async function deleteFavoriteBackend(id: string) {
+  try {
+    const res = await fetch(`${API_URL}/favorites/${id}`, { method: 'DELETE' }); // Requisição DELETE
+
+    if (!res.ok) {
+      if (res.status === 404) throw new Error('Filme não encontrado'); // Se o filme não existe
+      throw new Error(`Erro ${res.status}`); // Outros erros
+    }
+    return res.json();
+
+  } catch (error) {
+    console.error('Erro ao deletar favorito:', error);
+    throw error;
+  }
+}
+
+// Atualiza rating e comment de um filme favoritado
+
+export async function updateFavoriteBackend(id: string, data: { rating: number; coment?: string }) {
+  try {
+    const res = await fetch(`${API_URL}/favorites/${id}`, {
+      method: 'PATCH', // Método HTTP PATCH para atualização parcial
+      headers: { 'Content-Type': 'application/json' }, // Corpo JSON
+      body: JSON.stringify(data), // Converte rating e comment em JSON
+    });
+
+    if (!res.ok) {
+      if (res.status === 404) throw new Error('Filme não encontrado'); // Verifica se existe
+      throw new Error(`Erro ${res.status}`); // Outros erros
+    }
+    return res.json();
+  } catch (error) {
+    console.log('Erro ao atualizar favoritos', error);
+    throw error;
+  }
+}

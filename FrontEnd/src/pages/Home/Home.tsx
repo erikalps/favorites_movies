@@ -3,6 +3,7 @@ import { fetchMovies } from "../../services/api";
 import { type MovieSearchItem } from "../../types/movies";
 import MovieCard from "../../components/movieCard/MovieCard";
 import './Home.scss'
+
 function Home() {
 
     const [search, setSearch] = useState('');
