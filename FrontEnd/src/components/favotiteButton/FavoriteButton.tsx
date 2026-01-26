@@ -86,7 +86,7 @@ function FavoriteButton({ movie }: FavoriteButtonProps) {
         }`}
       onClick={handleClick}
     >
-      {isFavorite ? "★ Favoritado" : "☆ Favoritar"}
+      {isFavorite ? "★ Favorited" : "☆ Add to Favorites"}
     </button>
   );
 }

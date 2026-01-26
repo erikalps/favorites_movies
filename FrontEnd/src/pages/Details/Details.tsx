@@ -106,7 +106,7 @@ function Details() {
                 </div>
                 {/* Área de avaliação do usuário */}
                 <div className="review-box">
-                    <h3>Sua avaliação</h3>
+                    <h3>Your Review</h3>
                     {/* Exibe a avaliação salva ou o formulário */}
                     {hasReview && !isEditing ? (
                         <div className="saved-review-box">
@@ -115,17 +115,17 @@ function Details() {
                             </div>
                             <p className="saved-comment">"{favoriteMovie?.review?.comment}"</p>
                             <button className="edit-review-button" onClick={() => setIsediting(true)}>
-                                Editar Comentário
+                                Edit Comment
                             </button>
                         </div>
                     ) : (
                         <div className="review-form">
-                            <label>Nota (0 a 5)</label>
+                            <label>Rating (0 to 5)</label>
                             <StarRating
                                 rating={rating}
                                 onRatingSelect={(value) => setRating(value)}
                             />
-                            <label>Comentário
+                            <label>Comment
                                 <textarea
                                     placeholder="O que achou do filme?"
                                     value={comment}
@@ -138,7 +138,7 @@ function Details() {
                                 </button>
                                 {isEditing && (
                                     <button className="cancel-button" onClick={() => setIsediting(false)}>
-                                        Cancelar
+                                        Cancel
                                     </button>
                                 )}
                             </div>
