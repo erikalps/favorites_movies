@@ -4,7 +4,7 @@ const URL_BASE = 'http://www.omdbapi.com/';
 const API_URL = 'http://localhost:3000'; // Backend local
 
 
-//busca de filmes na api omdbapi
+// Busca de filmes na api omdbapi
 
 export async function fetchMovies(title: string): Promise<SearchResponse> {
   const url_request: string = `${URL_BASE}?s=${encodeURIComponent(title)}&apikey=${API_KEY}`;

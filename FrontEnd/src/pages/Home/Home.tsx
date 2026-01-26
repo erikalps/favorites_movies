@@ -29,7 +29,7 @@ function Home() {
 
     return (
         <div className="home">
-            <h1 className="home-title">Search Movies</h1>
+            <h1 className="home-title">Favorite movies</h1>
 
             <div className="search-box">
                 <input

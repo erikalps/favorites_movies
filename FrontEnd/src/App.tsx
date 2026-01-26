@@ -1,7 +1,7 @@
 import Home from './pages/Home/Home'
 import Favorites from './pages/Favorites/Favorites'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
-import './App.css'
+import './App.scss'
 import Details from './pages/Details/Details'
 import { MovieProvider } from './context/MovieContext'
 
