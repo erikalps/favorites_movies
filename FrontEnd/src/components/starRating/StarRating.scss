@@ -1,0 +1,19 @@
+.star-rating {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 2rem; // tamanho da estrela
+  cursor: pointer;
+
+  .star {
+    color: #555; // cinza para estrelas não selecionadas
+    transition: color 0.3s, transform 0.2s;
+
+    &.filled {
+      color: #ff9900; // laranja para estrelas selecionadas
+    }
+
+    &:hover {
+      transform: scale(1.2); // leve zoom ao passar o mouse
+    }
+  }
+}

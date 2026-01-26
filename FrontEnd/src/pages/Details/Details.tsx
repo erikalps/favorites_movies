@@ -5,6 +5,7 @@ import { fetchMoviesDetails } from "../../services/api";
 import './Details.scss'
 import FavoriteButton from "../../components/favotiteButton/FavoriteButton";
 import { MovieContext } from "../../context/MovieContext";
+import StarRating from "../../components/starRating/StarRating";
 /**
  * Details Page
  *
@@ -119,13 +120,11 @@ function Details() {
                         </div>
                     ) : (
                         <div className="review-form">
-                            <label>Nota (0 a 5)
-                                <input
-                                    type="number" min={0} max={5}
-                                    value={rating}
-                                    onChange={(e) => setRating(Number(e.target.value))}
-                                />
-                            </label>
+                            <label>Nota (0 a 5)</label>
+                            <StarRating
+                                rating={rating}
+                                onRatingSelect={(value) => setRating(value)}
+                            />
                             <label>Comentário
                                 <textarea
                                     placeholder="O que achou do filme?"

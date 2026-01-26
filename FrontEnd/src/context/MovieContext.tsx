@@ -87,7 +87,7 @@ export const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
 
         try {
             // envia atualização para o backend
-            const updatedMovie = await updateFavoriteBackend(imdbID, review);
+            await updateFavoriteBackend(imdbID, review);
 
             // Atualiza os filmes favoritos atuais, consultando o backend.
             const data = await getFavoritesBackend();
