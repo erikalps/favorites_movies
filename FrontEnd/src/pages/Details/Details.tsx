@@ -19,6 +19,14 @@ function Details() {
 
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
+    // Logica de edição dos comentario 
+    const [isEditing, setIsediting] = useState(false); 
+    // Busca o filme nos favoritos para verificar se já existe uma review salva
+    const favoriteMovie = movie && movieContext
+        ? movieContext.favorites.find(fav => fav.imdbID === movie.imdbID)
+        : undefined;
+    // Caso o filme ja possua nota ou comentario    
+    const hasReview = !!(favoriteMovie?.review?.rating || favoriteMovie?.review?.comment);
 
     // Busca detalhes do filme 
     useEffect(() => {
@@ -37,7 +45,7 @@ function Details() {
 
         loadMovie(); // Chama a função async 
 
-    }, []);
+    }, [id]);
 
     useEffect(() => {
         if (!movieContext || !movie) return;

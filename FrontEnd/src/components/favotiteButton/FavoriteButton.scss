@@ -1,71 +1,48 @@
 .favorite-button {
-  margin-top: 0.5rem;
-  padding: 0.55rem 1.1rem;
-  border-radius: 999px;
-
-  border: 2px solid #ff7f00;
+  width: calc(100% - 20px);
+  margin: 0 10px 15px 10px;
+  padding: 0.7rem;
   background: transparent;
-  color: #ff7f00;
-
-  font-size: 0.95rem;
-  font-weight: 600;
-  font-family: inherit;
-
+  border: 2px solid #8a4fff;
+  color: #8a4fff;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-
-  transition: all 0.25s ease;
-
-  /* estrela */
-  span,
-  & {
-    letter-spacing: 0.02em;
-  }
-
-  &:hover {
-    background: rgba(255, 127, 0, 0.15);
-    transform: scale(1.05);
-    box-shadow: 0 0 10px rgba(255, 127, 0, 0.4);
+  &.active {
+    background: #8a4fff;
+    color: #ffffff;
+    box-shadow: 0 0 15px rgba(138, 79, 255, 0.4);
   }
 
   &:active {
-    transform: scale(0.95);
+    transform: scale(0.92);
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      background: rgba(138, 79, 255, 0.1);
+      border-color: #bc9aff;
+      color: #bc9aff;
+    }
+
+    &.active:hover {
+      background: #7239e5;
+      border-color: #7239e5;
+    }
   }
 }
 
-/* === FAVORITADO====== */
+// Responsividade
+.favorite-button {
 
-.favorite-button.active {
-  background: #1f7a3a;
-  border-color: #2ecc71;
-  color: #2ecc71;
-
-  box-shadow: 0 0 14px rgba(46, 204, 113, 0.6);
-
-  animation: favoritePop 0.35s ease;
-}
-
-/*  animação */
-@keyframes favoritePop {
-  0% {
-    transform: scale(0.7);
-  }
-  70% {
-    transform: scale(1.15);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-/*  Mobile */
-@media (max-width: 480px) {
-  .favorite-button {
-    font-size: 0.85rem;
-    padding: 0.45rem 0.9rem;
+  @media (max-width: 600px) {
+    padding: 0.5rem;
+    font-size: 0.75rem;
+    margin-bottom: 10px;
   }
 }

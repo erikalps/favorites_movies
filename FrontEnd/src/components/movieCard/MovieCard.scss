@@ -1,82 +1,82 @@
-
 .movie-card-link {
   text-decoration: none;
-  color: inherit; /* herda cor do card */
+  color: inherit;
+  display: block; // Garante que o link envolva todo o conteúdo
 }
 
 .movie-card {
-  background: linear-gradient(145deg, #1A1A1A, #2C2C2C); /* fundo escuro com gradiente sutil */
+  background: #16161c;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  list-style: none;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 1rem;
-  cursor: pointer;
+  height: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  
+  // Animação
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+              box-shadow 0.3s ease, 
+              border-color 0.3s ease;
 
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(185, 94, 9, 0.795); /* sombra laranja ao hover */
-  }
-}
 
-.movie-poster {
-  width: 100%;
-  overflow: hidden;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-
-  .movie-image {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 8px;
-    transition: transform 0.3s ease;
-
+  @media (hover: hover) { 
     &:hover {
-      transform: scale(1.05);
+      transform: scale(1.05); // Aumenta o tamanho
+      border-color: rgba(138, 79, 255, 0.5);
+      box-shadow: 0 10px 25px rgba(138, 79, 255, 0.4); // Sombra roxa 
+      z-index: 10; // Garante que o card fique por cima dos vizinhos no zoom
     }
   }
-}
 
-.movie-title {
-  font-size: 1.2rem;
-  font-weight: 700;
-  text-align: center;
-  color: #FF7F00;
-  margin-bottom: 0.5rem;
-  text-shadow: 1px 1px 5px rgba(255,127,0,0.5);
-}
-
-/* Ajuste do FavoriteButton dentro do card */
-.movie-card .favorite-button {
-  margin-top: auto;
-  align-self: center;
-}
-
-/* ===== Responsividade ===== */
-
-/* Telas pequenas (celulares) */
-@media (max-width: 480px) {
-  .movie-card {
-    padding: 0.8rem;
+  .movie-poster {
+    width: 100%;
+    line-height: 0; // Remove espaços fantasmas abaixo da imagem
+    
+    img {
+      width: 100%;
+      aspect-ratio: 2/3;
+      object-fit: cover;
+      display: block;
+    }
   }
 
   .movie-title {
-    font-size: 1rem;
+    padding: 1.2rem 0.8rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: center;
+    flex-grow: 1;
+    color: #efefef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
+
 }
+.movie-list {
+  display: grid;
+  list-style: none;
+  padding: 0;
+  gap: 1.5rem; // Espaçamento entre os cards
 
-/* Tablets */
-@media (max-width: 768px) {
-  .movie-card {
-    padding: 0.9rem;
+  // MOBILE: 2 colunas para aproveitar melhor a tela vertical
+  grid-template-columns: repeat(2, 1fr);
+
+  // TABLET: 3 colunas
+  @media (min-width: 600px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
   }
 
-  .movie-title {
-    font-size: 1.1rem;
+  // DESKTOP PEQUENO: 4 colunas
+  @media (min-width: 900px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  // DESKTOP GRANDE: 5 ou 6 colunas
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(5, 1fr);
+    max-width: 1400px;
+    margin: 0 auto;
   }
 }
