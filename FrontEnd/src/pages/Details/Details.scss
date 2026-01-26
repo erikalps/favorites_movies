@@ -3,6 +3,16 @@
   margin: 0 auto;
   padding: 1rem;
 
+  .back-button {
+    padding:10px;
+    border-radius: 20px;
+    margin:10px;
+    background: #8a4fff;
+    border-style: none;
+    cursor: pointer;
+    transition: 0.5s;
+  }
+
   .details-content {
     display: flex;
     flex-direction: column; // Coluna no mobile
@@ -26,6 +36,7 @@
         position: sticky;
         top: 100px;
       }
+
     }
 
     .details-info {
@@ -88,6 +99,7 @@
       border: none;
       color: white;
       font-weight: bold;
+      cursor: pointer;
 
       @media (min-width: 600px) {
         width: auto;
@@ -163,10 +175,7 @@
         margin-top: 0.5rem;
         font-size: 1rem;
 
-        &:focus {
-          border-color: #8a4fff;
-          outline: none;
-        }
+      
       }
 
       textarea {
