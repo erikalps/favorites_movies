@@ -105,11 +105,13 @@ function Details() {
                 </div>
                 {/* Área de avaliação do usuário */}
                 <div className="review-box">
-                    <h3>sua avaliação</h3>
+                    <h3>Sua avaliação</h3>
                     {/* Exibe a avaliação salva ou o formulário */}
                     {hasReview && !isEditing ? (
                         <div className="saved-review-box">
-                            <div className="saved-rating">⭐ {favoriteMovie?.review?.rating}/5</div>
+                            <div className="saved-rating">
+                                {"⭐".repeat(favoriteMovie?.review?.rating ?? 0)}
+                            </div>
                             <p className="saved-comment">"{favoriteMovie?.review?.comment}"</p>
                             <button className="edit-review-button" onClick={() => setIsediting(true)}>
                                 Editar Comentário

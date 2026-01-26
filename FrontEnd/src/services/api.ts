@@ -84,7 +84,6 @@ export async function addFavoriteBackend(movie: any) {
 }
 
 // DELETE /favorites/:id → remove um filme pelo ID
-
 export async function deleteFavoriteBackend(id: string) {
   try {
     const res = await fetch(`${API_URL}/favorites/${id}`, { method: 'DELETE' }); // Requisição DELETE

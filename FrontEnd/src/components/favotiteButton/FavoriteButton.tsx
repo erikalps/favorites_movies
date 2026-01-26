@@ -25,14 +25,14 @@ interface FavoriteButtonProps {
 
 function FavoriteButton({ movie }: FavoriteButtonProps) {
 
-  //  Acessa o estado global de favoritos e suas funções
+  // Acessa o estado global de favoritos e suas funções
   const movieContext = useContext(MovieContext);
 
-   /*
-    Garantia de segurança:
-    Caso o componente seja utilizado fora do MovieProvider,
-    lançamos um erro explícito para facilitar o debug.
-  */
+  /*
+   Garantia de segurança:
+   Caso o componente seja utilizado fora do MovieProvider,
+   lançamos um erro explícito para facilitar o debug.
+ */
   if (!movieContext) {
     throw new Error(
       "FavoriteButton deve estar dentro do MovieProvider"
@@ -51,16 +51,15 @@ function FavoriteButton({ movie }: FavoriteButtonProps) {
   const isFavorite = favorites.some(
     fav => fav.imdbID === movie.imdbID
   );
-//converte o filme recebido da API para o modelo interno da aplicação
+
+  // Converte o filme recebido da API para o modelo interno da aplicação
   const favoriteMovie: FavoriteMovie = {
     imdbID: movie.imdbID,
     Title: movie.Title,
     Year: movie.Year,
     Poster: movie.Poster,
 
-    
-     // Esses campos existem apenas em MovieDetails,
-     
+    // Esses campos existem apenas em MovieDetails,
     Plot: "Plot" in movie ? movie.Plot : undefined,
     Runtime: "Runtime" in movie ? movie.Runtime : undefined,
     Genre: "Genre" in movie ? movie.Genre : undefined
@@ -70,22 +69,21 @@ function FavoriteButton({ movie }: FavoriteButtonProps) {
   const handleClick = (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
-    e.preventDefault(); //impede que o clique ative o Link do MovieCard.
+    e.preventDefault(); // Impede que o clique ative o Link do MovieCard.
 
-    e.stopPropagation(); //impede que o evento suba para elementos pais.
+    e.stopPropagation(); // Impede que o evento suba para elementos pais.
 
-    if (isFavorite) { //se ja é favorito remove
+    if (isFavorite) { // Se ja é favorito remove
       removeFavorites(movie.imdbID);
     } else {
-      addFavorites(favoriteMovie); // se não adiciona 
+      addFavorites(favoriteMovie); // Se não adiciona 
     }
   };
 
   return (
     <button
-      className={`favorite-button ${
-        isFavorite ? "active" : ""
-      }`}
+      className={`favorite-button ${isFavorite ? "active" : ""
+        }`}
       onClick={handleClick}
     >
       {isFavorite ? "★ Favoritado" : "☆ Favoritar"}

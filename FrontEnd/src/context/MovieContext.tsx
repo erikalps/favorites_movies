@@ -4,6 +4,7 @@ import type { MovieReview } from "../types/movies";
 import { getFavoritesBackend } from "../services/api";
 import { addFavoriteBackend } from '../services/api';
 import { updateFavoriteBackend } from "../services/api";
+import { deleteFavoriteBackend } from "../services/api";
 
 interface MovieContextType {
     favorites: FavoriteMovie[]; // lista de filmes favoritos estado global 
@@ -48,7 +49,7 @@ export const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
         }
 
         fetchFavorites();
-    }, []); 
+    }, []);
 
     //adicionar filme aos favoritos sem duplicar
 
@@ -70,12 +71,16 @@ export const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
     };
 
 
-    //remover filme dos favoritos
-    const removeFavorites = (imdbID: string) => {
-        setFavorites(prev => prev.filter(fav => fav.imdbID != imdbID))
+    // Remover filme dos favoritos
+    const removeFavorites = async (imdbID: string) => {
+        await deleteFavoriteBackend(imdbID);
+
+        // Atualiza os filmes favoritos atuais, consultando o backend.
+        const data = await getFavoritesBackend();
+        setFavorites(data);
     };
 
-    //fazer review
+    // Fazer review
     const updateReview = async (imdbID: string, review: MovieReview) => {
         // validação do rating
         if (review.rating < 0 || review.rating > 5) return;
@@ -84,12 +89,9 @@ export const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
             // envia atualização para o backend
             const updatedMovie = await updateFavoriteBackend(imdbID, review);
 
-            // atualiza o estado do frontend
-            setFavorites(prev =>
-                prev.map(movie =>
-                    movie.imdbID === imdbID ? updatedMovie : movie
-                )
-            );
+            // Atualiza os filmes favoritos atuais, consultando o backend.
+            const data = await getFavoritesBackend();
+            setFavorites(data);
         } catch (error) {
             console.error('Erro ao atualizar review:', error);
         }
