@@ -4,7 +4,11 @@
       "imdbID": "tt0133093",
       "Title": "The Matrix",
       "Year": "1999",
-      "Poster": "https://m.media-amazon.com/images/M/MV5BN2NmN2VhMTQtMDNiOS00NDlhLTliMjgtODE2ZTY0ODQyNDRhXkEyXkFqcGc@._V1_SX300.jpg"
+      "Poster": "https://m.media-amazon.com/images/M/MV5BN2NmN2VhMTQtMDNiOS00NDlhLTliMjgtODE2ZTY0ODQyNDRhXkEyXkFqcGc@._V1_SX300.jpg",
+      "review": {
+        "rating": 5,
+        "comment": ""
+      }
     },
     {
       "imdbID": "tt0295432",
@@ -14,6 +18,19 @@
       "review": {
         "rating": 5,
         "comment": "Recomendo demais!"
+      }
+    },
+    {
+      "imdbID": "tt0234215",
+      "Title": "The Matrix Reloaded",
+      "Year": "2003",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BNjAxYjkxNjktYTU0YS00NjFhLWIyMDEtMzEzMTJjMzRkMzQ1XkEyXkFqcGc@._V1_SX300.jpg",
+      "Plot": "Freedom fighters Neo, Trinity and Morpheus continue to lead the revolt against the Machine Army, unleashing their arsenal of extraordinary skills and weaponry against the systematic forces of repression and exploitation.",
+      "Runtime": "138 min",
+      "Genre": "Action, Sci-Fi",
+      "review": {
+        "rating": 1,
+        "comment": ""
       }
     }
   ]

@@ -3,12 +3,15 @@ import favoritesRoutes from './routes/favoritesRoutes';
 import cors from 'cors';
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware para permitir requisições do Frontend
-app.use(cors({
-  origin: 'http://localhost:5173', // porta do frontend
-}));
+const allowedOrigins = [
+  'http://localhost:5173',
+  process.env.FRONTEND_URL || ''
+].filter(Boolean);
+
+app.use(cors({ origin: allowedOrigins }));
 
 // Middleware para ler JSON no corpo das requisições
 app.use(express.json());
