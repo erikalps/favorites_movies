@@ -1,6 +1,6 @@
 import type { MovieDetails, SearchResponse } from '../types/movies';
 const API_KEY = import.meta.env.VITE_OMDB_API_KEY;
-const URL_BASE = 'http://www.omdbapi.com/';
+const URL_BASE = 'https://www.omdbapi.com/';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 // OMDb API — Integração externa // 
