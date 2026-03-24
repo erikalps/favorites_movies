@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { type MovieSearchItem } from "../../types/movies";
 import './MovieCard.scss'
-import FavoriteButton from "../favotiteButton/FavoriteButton";
+import FavoriteButton from "../favoriteButton/FavoriteButton";
 
 
 interface MovieCardProps {
