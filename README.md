@@ -1,89 +1,158 @@
-
----
-
 # 🎬 My Favorite Movies
 
-O **My Favorite Movies** é a sua biblioteca pessoal de cinema! Este projeto permite que você pesquise, favorite e organize os filmes que já assistiu, adicionando notas e feedbacks personalizados para nunca mais esquecer o que achou daquela obra-prima (ou daquele "filme B").
+> Sua biblioteca pessoal de cinema — pesquise, favorite e avalie os filmes que já assistiu.
+
+![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=flat-square&logo=vite&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-Express-339933?style=flat-square&logo=node.js&logoColor=white)
+![License](https://img.shields.io/badge/license-ISC-green?style=flat-square)
 
 ---
 
 ## ✨ Funcionalidades
 
-* **Busca Inteligente:** Encontre qualquer filme através da integração com a API OMDb.
-* **Favoritos:** Salve seus filmes preferidos em uma lista dedicada.
-* **Avaliações:** Atribua notas e escreva comentários sobre os filmes assistidos.
-* **Histórico:** Mantenha um registro visual dos seus feedbacks cinematográficos.
+- 🔍 **Busca inteligente** — pesquise qualquer filme via integração com a OMDb API
+- ⭐ **Favoritos** — salve os filmes que você já assistiu em uma lista dedicada
+- 📝 **Avaliações** — atribua notas (0–5 estrelas) e escreva comentários personalizados
+- 🎞️ **Detalhes completos** — veja sinopse, diretor, elenco, gênero e nota do IMDb
+- 💾 **Persistência** — seus favoritos ficam salvos no backend entre sessões
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## 🏗️ Arquitetura
 
-* **React + TypeScript** (Frontend)
-* **Vite** (Build tool)
-* **OMDb API** (Fonte de dados de filmes)
-* **SCSS** (Estilização)
+O projeto é dividido em duas aplicações independentes:
 
-## 🚀 Como Executar o Projeto
+```
+favorites_movies/
+├── FrontEnd/        # React + TypeScript + Vite (porta 5173)
+│   ├── src/
+│   │   ├── pages/       # Home, Favorites, Details
+│   │   ├── components/  # MovieCard, FavoriteButton, StarRating
+│   │   ├── context/     # MovieContext (estado global)
+│   │   ├── services/    # api.ts (OMDb + BackEnd)
+│   │   └── types/       # Interfaces TypeScript
+│   └── ...
+├── BackEnd/         # Node.js + Express + TypeScript (porta 3000)
+│   ├── src/
+│   │   ├── index.ts          # Servidor Express
+│   │   ├── routes/           # favoritesRoutes.ts
+│   │   └── database/         # database.json + dbHelpers.ts
+│   └── ...
+├── setup.js         # Script de configuração automatizada
+└── vercel.json      # Configuração de deploy (Vercel)
+```
 
-Este projeto possui um **script de setup automatizado** (`setup.js`) que facilita a configuração completa do ambiente.
+**Fluxo de dados:**
 
-### 1. Clonar o Repositório
+```
+Usuário → React (FrontEnd) → Express (BackEnd) → database.json
+                           ↘ OMDb API (busca de filmes)
+```
+
+---
+
+## 🛠️ Tecnologias
+
+| Camada | Tecnologia |
+|---|---|
+| FrontEnd | React 19, TypeScript, Vite 7, React Router DOM 7 |
+| Estilização | SCSS (módulos por componente) |
+| BackEnd | Node.js, Express 5, TypeScript |
+| Banco de dados | Arquivo `database.json` (fs.promises) |
+| API externa | [OMDb API](https://www.omdbapi.com/) |
+| Deploy FrontEnd | [Vercel](https://vercel.com) |
+| Deploy BackEnd | [Render](https://render.com) |
+
+---
+
+## 🚀 Rodando localmente
+
+### Pré-requisitos
+
+- [Node.js](https://nodejs.org) v18 ou superior
+- Chave da OMDb API gratuita → [omdbapi.com/apikey.aspx](https://www.omdbapi.com/apikey.aspx)
+
+### Modo automático (recomendado)
 
 ```bash
 git clone https://github.com/erikalps/favorites_movies.git
 cd favorites_movies
-```
-
----
-
-### 2. Executar o Setup Automático
-
-O script `setup.js` irá:
-
-* Perguntar sua **OMDb API Key**
-* Criar o arquivo `.env` dentro do **FrontEnd** automaticamente
-* Instalar dependências do **FrontEnd** e **BackEnd**
-* Iniciar os dois servidores simultaneamente
-
-Para rodar:
-
-```bash
 npm run setup
 ```
 
-> Durante a execução, caso já exista uma API Key no `.env`, o script perguntará se você deseja **substituí-la** ou **manter a atual**.
+O script `setup.js` vai:
+1. Pedir sua OMDb API Key
+2. Criar o arquivo `FrontEnd/.env` automaticamente
+3. Instalar as dependências do FrontEnd e do BackEnd
+4. Subir os dois servidores simultaneamente
 
-Após o script terminar, o **FrontEnd** geralmente estará disponível em `http://localhost:5173` e o **BackEnd** rodando em `http://localhost:3000`.
+Acesse em seguida: [http://localhost:5173](http://localhost:5173)
 
 ---
 
-### 3. Acesso Manual (Opcional)
+### Modo manual
 
-Se preferir rodar manualmente, você pode:
-
-1. Entrar na pasta do FrontEnd:
-
-```bash
-cd FrontEnd
-npm install
-npm run dev
-```
-
-2. Entrar na pasta do BackEnd:
-
+**Terminal 1 — BackEnd:**
 ```bash
 cd BackEnd
 npm install
 npm run dev
 ```
 
-> **Nota:** Se você rodar manualmente, será necessário criar o arquivo `.env` dentro do FrontEnd e adicionar sua chave da OMDb:
->
-> ```env
-> VITE_OMDB_API_KEY=sua_chave_aqui
-> ```
+**Terminal 2 — FrontEnd:**
+```bash
+cd FrontEnd
+npm install
+npm run dev
+```
+
+Crie o arquivo `FrontEnd/.env` com sua chave:
+```env
+VITE_OMDB_API_KEY=sua_chave_aqui
+VITE_API_URL=http://localhost:3000
+```
 
 ---
 
+## 🌐 Deploy
 
-**Desenvolvido por [Erika Lopes](https://github.com/erikalps)** 🍿
+O projeto está hospedado em:
+
+- **FrontEnd:** Vercel — build automático a cada push na branch `main`
+- **BackEnd:** Render — build com `npm run build`, start com `npm run start`
+
+### Variáveis de ambiente necessárias
+
+**FrontEnd (Vercel):**
+
+| Variável | Descrição |
+|---|---|
+| `VITE_OMDB_API_KEY` | Sua chave da OMDb API |
+| `VITE_API_URL` | URL do backend no Render |
+
+**BackEnd (Render):**
+
+| Variável | Descrição |
+|---|---|
+| `FRONTEND_URL` | URL do frontend na Vercel |
+
+---
+
+## 🔌 API — Endpoints
+
+Base URL: `http://localhost:3000`
+
+| Método | Rota | Descrição |
+|---|---|---|
+| `GET` | `/favorites` | Retorna todos os favoritos |
+| `POST` | `/favorites` | Adiciona um filme aos favoritos |
+| `DELETE` | `/favorites/:id` | Remove um filme pelo `imdbID` |
+| `PATCH` | `/favorites/:id` | Atualiza `rating` e `comment` |
+
+---
+
+## 👩‍💻 Autora
+
+Desenvolvido com 🍿 por **[Erika Lopes](https://github.com/erikalps)**

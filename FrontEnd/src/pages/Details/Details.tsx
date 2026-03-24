@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import type { MovieDetails } from "../../types/movies";
 import { fetchMoviesDetails } from "../../services/api";
 import './Details.scss'
-import FavoriteButton from "../../components/favotiteButton/FavoriteButton";
+import FavoriteButton from "../../components/favoriteButton/FavoriteButton";
 import { MovieContext } from "../../context/MovieContext";
 import StarRating from "../../components/starRating/StarRating";
 /**

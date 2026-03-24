@@ -1,109 +1,82 @@
 import { Router } from 'express';
-import { readDB, writeDB } from '../database/dbHelpers'
+import pool from '../database/db';
 
 const router = Router();
 
-/**
- * GET /favorites
- * Retorna todos os filmes salvos
- */
-
 router.get('/', async (req, res) => {
-    try {
-        const db = await readDB();
-        res.json(db.favorites)
-    } catch (error) {
-        res.status(500).json({ message: 'Erro ao ler os favoritos.' });
-    }
+  try {
+    const result = await pool.query('SELECT * FROM favorites');
+    const favorites = result.rows.map(row => ({
+      imdbID:  row.imdb_id,
+      Title:   row.title,
+      Year:    row.year,
+      Poster:  row.poster,
+      Plot:    row.plot,
+      Runtime: row.runtime,
+      Genre:   row.genre,
+      review:  (row.rating || row.comment)
+                 ? { rating: row.rating, comment: row.comment }
+                 : undefined
+    }));
+    res.json(favorites);
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao buscar favoritos.' });
+  }
 });
-
-/**
- * POST /favorites
- * Recebe um filme e salva no JSON
- * Valida se já existe para não duplicar
- */
 
 router.post('/', async (req, res) => {
-    try {
-        const newMovie = req.body;
-        if (!newMovie.imdbID || !newMovie.Title) {
-            return res.status(400).json({ message: 'Filme inválido. imdbID e Title são obrigatórios.' });
-        }
-
-        const db = await readDB();
-
-        // Verifica se o filme já existe
-        const exist = db.favorites.some((movie: any) => movie.imdbID === newMovie.imdbID);
-        if (exist) {
-            return res.status(400).json({ message: 'Filme já está nos favoritos.' });
-        }
-
-        db.favorites.push(newMovie);
-        await writeDB(db);
-
-        res.status(201).json(newMovie);
-    } catch (error) {
-        res.status(500).json({ message: 'Erro ao adicionar favorito.' });
+  try {
+    const { imdbID, Title, Year, Poster, Plot, Runtime, Genre } = req.body;
+    if (!imdbID || !Title) {
+      return res.status(400).json({ message: 'imdbID e Title são obrigatórios.' });
     }
+    await pool.query(
+      `INSERT INTO favorites (imdb_id, title, year, poster, plot, runtime, genre)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)
+       ON CONFLICT (imdb_id) DO NOTHING`,
+      [imdbID, Title, Year, Poster, Plot, Runtime, Genre]
+    );
+    res.status(201).json(req.body);
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao adicionar favorito.' });
+  }
 });
 
-/**
- * DELETE /favorites/:id
- * Remove um filme pelo ID
- */
 router.delete('/:id', async (req, res) => {
-    try {
-        const id = req.params.id;
-        const db = await readDB();
-
-        const index = db.favorites.findIndex((movie: any) => movie.imdbID == id);
-        if (index == -1) {
-            return res.status(404).json({ message: 'Filme não encontrado.' });
-        }
-
-        const removed = db.favorites.splice(index, 1);
-        await writeDB(db);
-
-        res.json({ message: 'Filme removido com sucesso', removed: removed[0] })
-
-    } catch (error) {
-        res.status(500).json({ message: 'Erro ao remover favorito.' })
+  try {
+    const result = await pool.query(
+      'DELETE FROM favorites WHERE imdb_id = $1 RETURNING *',
+      [req.params.id]
+    );
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: 'Filme não encontrado.' });
     }
-})
+    res.json({ message: 'Filme removido com sucesso.' });
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao remover favorito.' });
+  }
+});
 
-//  Atualiza rating e comment de um filme já favoritado
 router.patch('/:id', async (req, res) => {
-    try {
-        const id = req.params.id;
-        const { rating, comment } = req.body
-
-        //validação basica 
-        if (rating !== undefined && (rating < 0 || rating > 5)) {
-            return res.status(400).json({ message: 'Rating deve ser entre 0 e 5.' });
-        }
-
-        const db = await readDB();
-
-        // Busca o filme pelo ID
-        const movie = db.favorites.find((movie: any) => movie.imdbID === id)
-
-        if (!movie) {
-            return res.status(404).json({ message: 'Filme não encontrado nos favoritos.' });
-        }
-        // Atualiza apenas os campos fornecidos
-        // Cria o review se não existir
-        if (!movie.review) {
-            movie.review = { rating: 0, comment: '' };
-        }
-        if (rating != undefined) movie.review.rating = rating;
-        if (comment != undefined) movie.review.comment = comment;
-
-        // Salva no json
-        await writeDB(db);
-        res.json({ message: 'Filme atualizado com sucesso.', movie });
-    } catch (error) {
-        res.status(500).json({ message: 'Erro ao atualizar o filme.' });
+  try {
+    const { rating, comment } = req.body;
+    if (rating !== undefined && (rating < 0 || rating > 5)) {
+      return res.status(400).json({ message: 'Rating deve ser entre 0 e 5.' });
     }
-})
+    const result = await pool.query(
+      `UPDATE favorites
+       SET rating = COALESCE($1, rating), comment = COALESCE($2, comment)
+       WHERE imdb_id = $3
+       RETURNING *`,
+      [rating, comment, req.params.id]
+    );
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: 'Filme não encontrado.' });
+    }
+    res.json({ message: 'Filme atualizado com sucesso.', movie: result.rows[0] });
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao atualizar filme.' });
+  }
+});
 
 export default router;

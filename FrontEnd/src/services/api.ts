@@ -101,7 +101,7 @@ export async function deleteFavoriteBackend(id: string) {
 
 // Atualiza rating e comment de um filme favoritado
 
-export async function updateFavoriteBackend(id: string, data: { rating: number; coment?: string }) {
+export async function updateFavoriteBackend(id: string, data: { rating: number; comment?: string }) {
   try {
     const res = await fetch(`${API_URL}/favorites/${id}`, {
       method: 'PATCH', // Método HTTP PATCH para atualização parcial
