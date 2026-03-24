@@ -38,7 +38,7 @@ favorites_movies/
 │   ├── src/
 │   │   ├── index.ts          # Servidor Express
 │   │   ├── routes/           # favoritesRoutes.ts
-│   │   └── database/         # database.json + dbHelpers.ts
+│   │   └── database/         # db.ts (conexão PostgreSQL)
 │   └── ...
 ├── setup.js         # Script de configuração automatizada
 └── vercel.json      # Configuração de deploy (Vercel)
@@ -47,7 +47,7 @@ favorites_movies/
 **Fluxo de dados:**
 
 ```
-Usuário → React (FrontEnd) → Express (BackEnd) → database.json
+Usuário → React (FrontEnd) → Express (BackEnd) → PostgreSQL (Neon)
                            ↘ OMDb API (busca de filmes)
 ```
 
@@ -60,7 +60,7 @@ Usuário → React (FrontEnd) → Express (BackEnd) → database.json
 | FrontEnd | React 19, TypeScript, Vite 7, React Router DOM 7 |
 | Estilização | SCSS (módulos por componente) |
 | BackEnd | Node.js, Express 5, TypeScript |
-| Banco de dados | Arquivo `database.json` (fs.promises) |
+| Banco de dados | PostgreSQL hospedado no [Neon](https://neon.tech) |
 | API externa | [OMDb API](https://www.omdbapi.com/) |
 | Deploy FrontEnd | [Vercel](https://vercel.com) |
 | Deploy BackEnd | [Render](https://render.com) |
@@ -73,6 +73,7 @@ Usuário → React (FrontEnd) → Express (BackEnd) → database.json
 
 - [Node.js](https://nodejs.org) v18 ou superior
 - Chave da OMDb API gratuita → [omdbapi.com/apikey.aspx](https://www.omdbapi.com/apikey.aspx)
+- Banco de dados PostgreSQL → crie um cluster gratuito em [neon.tech](https://neon.tech) e copie a connection string
 
 ### Modo automático (recomendado)
 
@@ -83,8 +84,8 @@ npm run setup
 ```
 
 O script `setup.js` vai:
-1. Pedir sua OMDb API Key
-2. Criar o arquivo `FrontEnd/.env` automaticamente
+1. Pedir sua **OMDb API Key** e criar o `FrontEnd/.env`
+2. Pedir a **DATABASE_URL** (connection string do Neon) e a **FRONTEND_URL** e criar o `BackEnd/.env`
 3. Instalar as dependências do FrontEnd e do BackEnd
 4. Subir os dois servidores simultaneamente
 
@@ -108,10 +109,16 @@ npm install
 npm run dev
 ```
 
-Crie o arquivo `FrontEnd/.env` com sua chave:
+Crie o arquivo `FrontEnd/.env`:
 ```env
 VITE_OMDB_API_KEY=sua_chave_aqui
 VITE_API_URL=http://localhost:3000
+```
+
+Crie o arquivo `BackEnd/.env`:
+```env
+DATABASE_URL=sua_connection_string_do_neon
+FRONTEND_URL=http://localhost:5173
 ```
 
 ---
@@ -137,6 +144,7 @@ O projeto está hospedado em:
 | Variável | Descrição |
 |---|---|
 | `FRONTEND_URL` | URL do frontend na Vercel |
+| `DATABASE_URL` | Connection string do PostgreSQL no Neon |
 
 ---
 

@@ -7,7 +7,8 @@ const { spawn, spawnSync } = require('child_process');
 // Pastas do projeto
 const FRONTEND_PATH = path.join(__dirname, 'FrontEnd');
 const BACKEND_PATH = path.join(__dirname, 'BackEnd');
-const ENV_PATH = path.join(FRONTEND_PATH, '.env');
+const FRONTEND_ENV_PATH = path.join(FRONTEND_PATH, '.env');
+const BACKEND_ENV_PATH = path.join(BACKEND_PATH, '.env');
 
 // Criar interface para leitura do terminal
 const rl = readline.createInterface({
@@ -20,19 +21,11 @@ function askQuestion(query) {
   return new Promise(resolve => rl.question(query, answer => resolve(answer)));
 }
 
-// Criar ou atualizar o arquivo .env
-function createOrUpdateEnv(apiKey) {
-  let action = 'criado';
-
-  if (fs.existsSync(ENV_PATH)) {
-    const existing = fs.readFileSync(ENV_PATH, 'utf8');
-    if (existing.includes('VITE_OMDB_API_KEY')) {
-      action = 'atualizado';
-    }
-  }
-
-  fs.writeFileSync(ENV_PATH, `VITE_OMDB_API_KEY=${apiKey}\n`, 'utf8');
-  console.log(`.env ${action} com sucesso em FrontEnd/.env`);
+// Criar ou atualizar o arquivo .env — agora recebe o path e o conteúdo como parâmetros
+function createOrUpdateEnv(envPath, content) {
+  const action = fs.existsSync(envPath) ? 'atualizado' : 'criado';
+  fs.writeFileSync(envPath, content, 'utf8');
+  console.log(`.env ${action} com sucesso em ${envPath}`);
 }
 
 // Instalar dependências com spawnSync (síncrono)
@@ -50,21 +43,21 @@ function startServer(command, folder) {
 // Função principal do setup
 (async function main() {
   try {
+    console.log('\n🎬 My Favorite Movies — Setup\n');
+
+    // ── OMDb API Key ──────────────────────────────────────────────
     let apiKey;
 
-    // Verifica se a API Key já existe no .env
-    if (fs.existsSync(ENV_PATH)) {
-      const existing = fs.readFileSync(ENV_PATH, 'utf8');
+    if (fs.existsSync(FRONTEND_ENV_PATH)) {
+      const existing = fs.readFileSync(FRONTEND_ENV_PATH, 'utf8');
       const match = existing.match(/VITE_OMDB_API_KEY\s*=\s*(.*)/);
 
       if (match && match[1]) {
         console.log(`Chave OMDb já existente: ${match[1]}`);
         const answer = await askQuestion('Deseja substituir a chave existente? (s/n): ');
-        if (answer.toLowerCase() === 'n') {
-          apiKey = match[1];
-        } else {
-          apiKey = await askQuestion('Digite a nova OMDb API Key: ');
-        }
+        apiKey = answer.toLowerCase() === 'n'
+          ? match[1]
+          : await askQuestion('Digite a nova OMDb API Key: ');
       } else {
         apiKey = await askQuestion('Digite a sua OMDb API Key: ');
       }
@@ -72,22 +65,55 @@ function startServer(command, folder) {
       apiKey = await askQuestion('Digite a sua OMDb API Key: ');
     }
 
+    // ── DATABASE_URL ──────────────────────────────────────────────
+    let databaseUrl;
+
+    if (fs.existsSync(BACKEND_ENV_PATH)) {
+      const existing = fs.readFileSync(BACKEND_ENV_PATH, 'utf8');
+      const match = existing.match(/DATABASE_URL\s*=\s*(.*)/);
+
+      if (match && match[1]) {
+        console.log(`\nDATABASE_URL já existente.`);
+        const answer = await askQuestion('Deseja substituir a connection string existente? (s/n): ');
+        databaseUrl = answer.toLowerCase() === 'n'
+          ? match[1]
+          : await askQuestion('Digite a nova DATABASE_URL (connection string do Neon): ');
+      } else {
+        databaseUrl = await askQuestion('\nDigite a DATABASE_URL (connection string do Neon): ');
+      }
+    } else {
+      databaseUrl = await askQuestion('\nDigite a DATABASE_URL (connection string do Neon): ');
+    }
+
+    // ── FRONTEND_URL ──────────────────────────────────────────────
+    const frontendUrl = await askQuestion('\nDigite a FRONTEND_URL (URL do seu frontend na Vercel, ou deixe em branco para usar localhost): ');
+
     rl.close();
 
-    // Cria ou atualiza .env
-    createOrUpdateEnv(apiKey);
+    // ── Cria os arquivos .env ─────────────────────────────────────
+    createOrUpdateEnv(
+      FRONTEND_ENV_PATH,
+      `VITE_OMDB_API_KEY=${apiKey}\nVITE_API_URL=http://localhost:3000\n`
+    );
 
-    // Instala dependências
+    createOrUpdateEnv(
+      BACKEND_ENV_PATH,
+      `DATABASE_URL=${databaseUrl}\nFRONTEND_URL=${frontendUrl || 'http://localhost:5173'}\n`
+    );
+
+    // ── Instala dependências ──────────────────────────────────────
     installDependencies(FRONTEND_PATH);
     installDependencies(BACKEND_PATH);
 
-    // Inicia servidores simultaneamente
+    // ── Inicia servidores ─────────────────────────────────────────
     console.log('\nIniciando servidores...');
+    startServer(['run', 'dev'], FRONTEND_PATH);
+    startServer(['run', 'dev'], BACKEND_PATH);
 
-    const frontServer = startServer(['run', 'dev'], FRONTEND_PATH);
-    const backServer = startServer(['run', 'dev'], BACKEND_PATH);
+    console.log('\n✅ Setup concluído!');
+    console.log('   FrontEnd → http://localhost:5173');
+    console.log('   BackEnd  → http://localhost:3000\n');
 
-    console.log('\nSetup concluído! FrontEnd e BackEnd estão rodando.');
   } catch (err) {
     console.error('Erro durante o setup:', err);
   }
